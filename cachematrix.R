@@ -18,17 +18,28 @@
 
 ## First, create a list of functions to manage the matrix and its inverse
 makeCacheMatrix <- function(m = matrix(numeric())) {
-        # initialize variable to hold inverted matrix
-        # if "m" is a matrix, its inverse is obviously called "w"
+        ## This returns a list of 4 functions described below
+        ## Argument is a numeric matrix but can be defaulted
+
+        ## initialize variable to hold inverted matrix
+        ## if "m" is a matrix, its inverse is obviously called "w"
         w <- NULL
         
-        # create the 4 management functions
+        ## create the 4 management functions: set, get, setinv, getinv
+        ## "set" creates the matrix to be inverted and nulls the cache
         set <- function(y) {
                 m <<- y
                 w <<- NULL
         }
+
+        ## "get" returns the matrix to be inverted
         get <- function() m
+
+        ## "setinv" caches the inverted matrix
+        ## this should only be called by cacheSolve, not externally
         setinv <- function(solved) w <<- solved
+
+        ## "getinv" can be used to return the inverted matrix AFTER caching
         getinv <- function() w
         
         # return a list containing the 4 functions
@@ -39,6 +50,8 @@ makeCacheMatrix <- function(m = matrix(numeric())) {
 ## Next, create a function to calculate or get the cached inverse
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+        ## Arguments are the list created by makeCacheMatrix and any args for solve()
+
         ## Initialize returned variable with (possibly) 
         ##   pre-calculated inverted matrix
         w <- x$getinv()
